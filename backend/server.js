@@ -2,29 +2,32 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const { chats } = require("./data/data");
-const port = process.env.PORT || 5000;
+const connectDB = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
+const chatRouter = require("./routes/chatRouter");
 
+// configure dot env
+dotenv.config();
+
+//connect mongoDB
+connectDB()
 
 const app = express();
 app.use(cors());
-// configure dot env
-dotenv.config();
+const port = process.env.PORT || 5000;
+app.use(express.json());
+
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// get all chats
-app.get("/api/chats", (req, res) => {
-  res.send(chats);
-});
+// user route 
+app.use("/api/user", userRoutes)
 
-// get chat using id
-app.get("/api/chats/:id", (req, res) => {
-  const id = req.params.id;
-  let chat = chats.find((c) => c._id === id);
-  res.send(chat);
-});
+//chat route
+app.use('/api/chat',chatRouter)
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

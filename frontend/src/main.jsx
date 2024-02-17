@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Home from './Pages/Home.jsx'
 import ChatPage from './Pages/ChatPage.jsx'
+import ChatProvider from './Context/ChatProvider.jsx'
 
 const router = createBrowserRouter([
   {
@@ -30,9 +31,9 @@ const router = createBrowserRouter([
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <ChatProvider>
     <ChakraProvider>
       <RouterProvider router={router} />
     </ChakraProvider>
-  </React.StrictMode>,
+  </ChatProvider>,
 )
